@@ -1,0 +1,139 @@
+DROP FUNCTION IF EXISTS vk.delete_user1;
+
+DELIMITER $$
+$$
+CREATE FUNCTION vk.delete_user1(user_id BIGINT UNSIGNED)
+RETURNS INT
+begin
+	-- удаляем все сообщения пользователя
+DELETE FROM messages WHERE from_user_id = user_id;
+DELETE FROM messages WHERE to_user_id = user_id;
+-- Удаляем все лайки 
+DELETE FROM likes WHERE user_id = user_id;
+-- удаляем все медиа записи пользователя
+DELETE FROM media WHERE user_id = user_id;
+-- Удаляем профидь пользователя
+DELETE FROM users WHERE user_id = user_id;
+
+SELECT user_id;
+END$$
+DELIMITER ;
+_____________________________________________________________
+-- 1. Написать функцию, которая удаляет всю информацию об указанном пользователе из БД vk. Пользователь задается по id. 
+-- Удалить нужно все сообщения, лайки, медиа записи, профиль и запись из таблицы users. Функция должна возвращать номер пользователя.
+
+USE vk;
+DROP FUNCTION IF EXISTS vk.delete_user1;
+DELIMITER $$
+$$
+CREATE FUNCTION vk.delete_user1(user_id BIGINT UNSIGNED)
+RETURNS INT DETERMINISTIC
+begin
+DECLARE delete_user_id INT;
+SET delete_user_id = user_id;
+	-- удаляем все сообщения пользователя
+DELETE FROM messages WHERE from_user_id = delete_user_id;
+DELETE FROM messages WHERE to_user_id = delete_user_id;
+-- Удаляем все лайки 
+DELETE FROM likes WHERE user_id = delete_user_id;
+-- удаляем все медиа записи пользователя
+DELETE FROM media WHERE user_id = delete_user_id;
+-- Удаляем профидь пользователя
+DELETE FROM users WHERE user_id = delete_user_id;
+
+RETURN delete_user_id;
+END$$
+DELIMITER ;
+
+-- исполняем функцию
+SELECT delete_user1(2) AS id_delete_user;
+
+-- проверяем
+select * from users;
+select * from messages;
+select * from likes WHERE user_id = 1;
+select * from media WHERE user_id = 1;
+
+
+
+
+
+
+
+
+
+_________________________________________________________________
+USE vk;
+-- 2.Предыдущую задачу решить с помощью процедуры и обернуть используемые команды в транзакцию внутри процедуры.
+DROP PROCEDURE IF EXISTS `delete_user`;
+DELIMITER &&
+CREATE PROCEDURE delete_user(user_id INT)
+
+BEGIN
+    DECLARE `_rollback` BOOL DEFAULT 0;
+   	DECLARE code varchar(100);
+   	DECLARE error_string varchar(100);
+   	DECLARE last_user_id int;
+
+   DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+   begin
+    	SET `_rollback` = 1;
+	GET stacked DIAGNOSTICS CONDITION 1
+          code = RETURNED_SQLSTATE, error_string = MESSAGE_TEXT;
+    	set tran_result := concat('Error occured. Code: ', code, '. Text: ', error_string);
+    end;
+
+START TRANSACTION;
+-- удаляем все сообщения пользователя
+DELETE FROM messages WHERE from_user_id = user_id;
+DELETE FROM messages WHERE to_user_id = user_id;
+-- Удаляем все лайки 
+DELETE FROM likes WHERE user_id = user_id;
+-- удаляем все медиа записи пользователя
+DELETE FROM media WHERE user_id = user_id;
+-- Удаляем профидь пользователя
+DELETE FROM users WHERE user_id = user_id;
+COMMIT;
+SELECT user_id;
+END &&
+DELIMITER ;
+CALL delete_user(1);
+select * from users;
+select * from messages;
+select * from likes WHERE user_id = 1;
+select * from media WHERE user_id = 1;
+
+
+
+_______________________________________________________________________
+
+-- 3. Написать триггер, который проверяет новое появляющееся сообщество. Длина названия сообщества (поле name) должна быть не менее 5 символов. 
+-- Если требование не выполнено, то выбрасывать исключение с пояснением.
+
+USE vk;
+
+drop TRIGGER if exists check_community_name;
+
+DELIMITER //
+CREATE TRIGGER check_community_name BEFORE INSERT ON communities
+FOR EACH ROW
+begin
+    IF char_length(NEW.name) < 5 THEN
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'Название сообщества должно содержать не менее 5 символов.';
+    END IF;
+END//
+
+DELIMITER ;
+
+-- Проверяем
+INSERT INTO communities (name) values ('test');
+
+
+
+
+
+
+
+
+

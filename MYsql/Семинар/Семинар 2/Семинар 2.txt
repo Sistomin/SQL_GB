@@ -1,0 +1,23 @@
+** Руководство по оформлению кода в SQL:
+https://www.sqlstyle.guide/ru/
+
+** Официальная документация:
+Insert
+EN: https://dev.mysql.com/doc/refman/8.0/en/insert.html
+RU: http://www.mysql.ru/docs/man/INSERT.html
+
+Select
+EN: https://dev.mysql.com/doc/refman/8.0/en/select.html
+RU: http://www.mysql.ru/docs/man/SELECT.html
+
+Update
+EN: https://dev.mysql.com/doc/refman/8.0/en/update.html
+RU: http://www.mysql.ru/docs/man/UPDATE.html
+
+Delete
+EN: https://dev.mysql.com/doc/refman/8.0/en/delete.html
+RU: http://www.mysql.ru/docs/man/DELETE.html
+
+Truncate
+EN: https://dev.mysql.com/doc/refman/8.0/en/truncate-table.html
+RU: http://www.mysql.ru/docs/man/TRUNCATE.html

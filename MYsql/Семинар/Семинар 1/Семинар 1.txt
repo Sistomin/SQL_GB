@@ -1,0 +1,32 @@
+Общий чат предмета: https://t.me/joinchat/HIZbI1Alyhr6bmnU
+•
+
+Ссылки для скачивания ПО
+• MySQL Community Server: https://dev.mysql.com/downloads/mysql/
+• Workbench: https://dev.mysql.com/downloads/workbench/
+• DbForge (есть бесплатная версия): https://www.devart.com/dbforge/mysql/studio/
+• DBeaver: https://dbeaver.io/download/
+
+Готовая виртуальная машина (по желанию, для вашего удобства): https://disk.yandex.ru/d/bS5Wm135JQYRkQ
+Инструкция по установке виртуальной машины из файла формата .ova на VirtualBox: https://yadi.sk/i/EH0MDN12xVm-pQ
+
+Дополнительные примеры учебных БД:
+• Employees: https://dev.mysql.com/doc/employee/en/
+• World: https://dev.mysql.com/doc/world-setup/en/
+• World_x: https://dev.mysql.com/doc/world-x-setup/en/
+• Sakila: https://dev.mysql.com/doc/sakila/en/
+
+•
+
+Литература по СУБД:
+• Книга: «Изучаем SQL»
+Автор: Линн Бейли
+
+• Книга: «Введение в системы баз данных»
+Автор: Крис Дж. Дейт
+
+• Книга: «Изучаем SQL»
+Автор: Алан Бьюли
+
+• Книга: «SQL. Сборник рецептов»
+Автор: Энтони Молинаро
